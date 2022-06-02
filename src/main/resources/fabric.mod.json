@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "manhunt",
+  "version": "${version}",
+  "name": "Manhunt",
+  "description": "Manhunt",
+  "authors": [
+    "6Times"
+  ],
+  "contact": {
+    "website": "iknowwhatimdoing.ml"
+  },
+  "license": "MIT",
+  "icon": "assets/manhunt/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "ml.ikwid.manhunt.Manhunt"
+    ]
+  },
+  "mixins": [
+    "manhunt.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.6",
+    "fabric": "*",
+    "minecraft": "1.18.2"
+  }
+}
