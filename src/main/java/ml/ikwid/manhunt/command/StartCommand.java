@@ -36,8 +36,7 @@ public class StartCommand {
 		StatusEffectInstance resistance = new StatusEffectInstance(StatusEffects.RESISTANCE, ticks, 5);
 
 		for(ServerPlayerEntity player : HunterCommand.getHunterEntities()) {
-			HunterCommand.incrementTrackedRunner(player.getUuid());
-			HunterCommand.setTrackedLocation(player.getUuid());
+			HunterCommand.setTrackedLocation(player.getUuid(), RunnerCommand.getRunners().get(0));
 
 			player.addStatusEffect(slowness);
 			player.addStatusEffect(miningFatigue);

@@ -22,6 +22,7 @@ public class Manhunt implements ModInitializer {
 	public static final HashMap<Integer, CopyOnWriteArrayList<Runnable>> tasks = new HashMap<>(20);
 
 	public static final HashMap<UUID, Boolean> updatedTrackedRunner = new HashMap<>();
+	public static final HashMap<UUID, Integer> handleRightClick = new HashMap<>();
 
 	private static Runnable resetCheck = null;
 
@@ -45,10 +46,10 @@ public class Manhunt implements ModInitializer {
 
 		resetCheck = () -> {
 			updatedTrackedRunner.replaceAll((u, v) -> false);
-			setTimeout(5, resetCheck);
+			setTimeout(2, resetCheck);
 		};
 
-		setTimeout(5, resetCheck);
+		setTimeout(2, resetCheck);
 	}
 
 	public static void setTimeout(int ticks, Runnable task) {

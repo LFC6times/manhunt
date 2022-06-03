@@ -1,5 +1,6 @@
 package ml.ikwid.manhunt.mixin;
 
+import ml.ikwid.manhunt.Manhunt;
 import ml.ikwid.manhunt.command.HunterCommand;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.CompassItem;
@@ -21,7 +22,10 @@ public abstract class MixinItem {
 	@Inject(method = "use", at = @At("HEAD"), cancellable = true)
 	private void checkCompassUse(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
 		if(this.asItem() instanceof CompassItem) {
+			Manhunt.LOGGER.info("right clicked");
+
 			HunterCommand.setTrackedLocation(user.getUuid());
+			Manhunt.handleRightClick.put(user.getUuid(), 0); // prepare to cancel 2 hand swings
 			cir.setReturnValue(TypedActionResult.success(user.getStackInHand(hand)));
 		}
 	}

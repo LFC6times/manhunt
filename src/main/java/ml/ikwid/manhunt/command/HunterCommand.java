@@ -4,6 +4,10 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import ml.ikwid.manhunt.Manhunt;
 import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.CompassItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -51,17 +55,37 @@ public class HunterCommand {
 
 	public static int remove(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
 		ServerPlayerEntity player = EntityArgumentType.getPlayer(ctx, "player");
-		hunters.remove(player.getUuid());
-		hunterTracked.remove(player.getUuid());
+		remove(player);
 
 		return 0;
 	}
 
+	public static void remove(ServerPlayerEntity player) {
+		hunters.remove(player.getUuid());
+		hunterTracked.remove(player.getUuid());
+		needsUpdateCompass.clear();
+		Manhunt.updatedTrackedRunner.clear();
+
+		removeCompass(player);
+	}
+
 	public static int clear(CommandContext<ServerCommandSource> ctx) {
-		hunters.clear();
-		hunterTracked.clear();
+		for(ServerPlayerEntity player : getHunterEntities()) {
+			remove(player);
+		}
 
 		return 0;
+	}
+
+	private static void removeCompass(ServerPlayerEntity player) {
+		PlayerInventory inventory = player.getInventory();
+
+		for(int i = 0; i < inventory.size(); i++) {
+			ItemStack stack = inventory.getStack(i);
+			if(stack.getItem() instanceof CompassItem) {
+				inventory.removeStack(i);
+			}
+		}
 	}
 
 	public static boolean isHunter(ServerPlayerEntity player) {
@@ -86,14 +110,16 @@ public class HunterCommand {
 	}
 
 	public static void setTrackedLocation(UUID hunter, UUID runner) {
-		if(!Objects.requireNonNull(playerManager.getPlayer(hunter)).getWorld().getRegistryKey().equals(Objects.requireNonNull(playerManager.getPlayer(runner)).getWorld().getRegistryKey())) {
-			return;
-		}
 		setTrackedLocation(hunter, runner, Objects.requireNonNull(playerManager.getPlayer(runner)).getBlockPos(), Objects.requireNonNull(playerManager.getPlayer(runner)).world.getRegistryKey());
 	}
 
 	public static void setTrackedLocation(UUID hunter) {
-		setTrackedLocation(hunter, hunterTracked.get(hunter).uuid());
+		TrackedLocation trackedRunner = hunterTracked.get(hunter);
+		if(trackedRunner == null) {
+			LOGGER.info("No tracked runner for hunter " + hunter);
+		} else {
+			setTrackedLocation(hunter, trackedRunner.uuid());
+		}
 	}
 
 	public static UUID getTrackedRunner(UUID hunter) {

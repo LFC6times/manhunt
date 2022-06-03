@@ -10,6 +10,7 @@ public class RunnersWin {
 	private static final LiteralText msg = new LiteralText(Formatting.GREEN + "Runners win!" + Formatting.RESET);
 
 	public static void win() {
+		Manhunt.LOGGER.info("runners won");
 		for(ServerPlayerEntity player : Manhunt.playerManager.getPlayerList()) {
 			player.sendMessage(msg, true);
 		}
