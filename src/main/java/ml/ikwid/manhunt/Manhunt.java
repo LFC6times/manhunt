@@ -1,28 +1,27 @@
 package ml.ikwid.manhunt;
 
-import ml.ikwid.manhunt.command.RegisterCommands;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.PlayerManager;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
-import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import ml.ikwid.manhunt.command.RegisterCommands;
+
+import static ml.ikwid.manhunt.game.Hunters.updatedTrackedRunner;
 
 public class Manhunt implements ModInitializer {
 	public static final Logger LOGGER = LogManager.getLogger("manhunt");
 	public static PlayerManager playerManager;
-
 	public static int ticks = 0;
 
 	public static final HashMap<Integer, CopyOnWriteArrayList<Runnable>> tasks = new HashMap<>(20);
-
-	public static final HashMap<UUID, Boolean> updatedTrackedRunner = new HashMap<>();
-	public static final HashMap<UUID, Integer> handleRightClick = new HashMap<>();
 
 	private static Runnable resetCheck = null;
 

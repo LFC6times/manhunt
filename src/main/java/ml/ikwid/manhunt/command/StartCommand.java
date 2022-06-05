@@ -2,6 +2,7 @@ package ml.ikwid.manhunt.command;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
@@ -14,6 +15,8 @@ import net.minecraft.util.Formatting;
 
 import java.util.Objects;
 import java.util.UUID;
+
+import ml.ikwid.manhunt.game.Hunters;
 
 public class StartCommand {
 
@@ -36,7 +39,7 @@ public class StartCommand {
 		StatusEffectInstance resistance = new StatusEffectInstance(StatusEffects.RESISTANCE, ticks, 5);
 
 		for(ServerPlayerEntity player : HunterCommand.getHunterEntities()) {
-			HunterCommand.setTrackedLocation(player.getUuid(), RunnerCommand.getRunners().get(0));
+			Hunters.setTrackedLocation(player.getUuid(), RunnerCommand.getRunners().get(0));
 
 			player.addStatusEffect(slowness);
 			player.addStatusEffect(miningFatigue);

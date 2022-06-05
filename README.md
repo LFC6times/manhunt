@@ -1,5 +1,7 @@
 # Manhunt mod for Fabric, completely server-sided
 
+### Aka Manhunt Intermediately Lightweight Fabric Server
+
 I'm surprised this compiles to begin with
 
 It almost completely works somehow as well

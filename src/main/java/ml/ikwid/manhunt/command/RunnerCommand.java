@@ -2,6 +2,7 @@ package ml.ikwid.manhunt.command;
 
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -11,7 +12,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import static ml.ikwid.manhunt.Manhunt.LOGGER;
-import static ml.ikwid.manhunt.Manhunt.playerManager;
 
 public class RunnerCommand {
 	private static final ArrayList<UUID> runners = new ArrayList<>();
@@ -48,14 +48,6 @@ public class RunnerCommand {
 
 	public static ArrayList<UUID> getRunners() {
 		return new ArrayList<>(runners);
-	}
-
-	public static ArrayList<ServerPlayerEntity> getRunnerEntities() {
-		ArrayList<ServerPlayerEntity> players = new ArrayList<>();
-		for(UUID uuid : runners) {
-			players.add(playerManager.getPlayer(uuid));
-		}
-		return players;
 	}
 
 	public static void remove(UUID uuid) {

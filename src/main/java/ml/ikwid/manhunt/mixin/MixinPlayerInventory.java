@@ -3,6 +3,7 @@ package ml.ikwid.manhunt.mixin;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.CompassItem;
 import net.minecraft.item.ItemStack;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
